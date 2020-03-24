@@ -13,7 +13,6 @@ public class Query implements GraphQLQueryResolver {
 	private final MovieRepository movieRepository;
 
 	public Iterable<Movie> movies() {
-
 		return movieRepository.findAll();
 	}
 }
