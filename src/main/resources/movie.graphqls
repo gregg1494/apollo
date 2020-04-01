@@ -1,15 +1,26 @@
 type Query {
     movies: [Movie]
+    theaters: [Theater]
 }
 
 type Mutation {
     createMovie(title: String!, length: Int!): Movie!
-    updateMovie(id: ID!, title: String, length: Int!): Movie!
+    updateMovie(id: ID!, title: String!, length: Int!): Movie!
     deleteMovie(id: ID!): Boolean
+
+    createTheater(name: String!, location: String!): Theater!
+    updateTheater(id: ID!, name: String!, location: String!): Theater!
+    deleteTheater(id: ID!): Boolean
 }
 
 type Movie {
-    id: Int
+    id: ID
     title: String
     length: Int
+}
+
+type Theater {
+    id: ID
+    name: String
+    location: String
 }
