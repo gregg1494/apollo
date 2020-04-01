@@ -1,8 +1,10 @@
-package com.greggvandycke.Apollo.resolvers;
+package com.greggvandycke.Apollo.resolvers.mutations;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.greggvandycke.Apollo.models.Movie;
+import com.greggvandycke.Apollo.models.Theater;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
+import com.greggvandycke.Apollo.repositories.TheaterRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class Mutation implements GraphQLMutationResolver {
+public class MovieMutation implements GraphQLMutationResolver {
 
 	private final MovieRepository movieRepository;
 
@@ -29,10 +31,10 @@ public class Mutation implements GraphQLMutationResolver {
 	}
 
 	public Movie updateMovie(long id, String title, int length) throws NotFoundException {
-		Optional<Movie> optMovie = movieRepository.findById(id);
+		Optional<Movie> optionalMovie = movieRepository.findById(id);
 
-		if (optMovie.isPresent()) {
-			Movie movie = optMovie.get();
+		if (optionalMovie.isPresent()) {
+			Movie movie = optionalMovie.get();
 
 			if (title != null) {
 				movie.setTitle(title);
