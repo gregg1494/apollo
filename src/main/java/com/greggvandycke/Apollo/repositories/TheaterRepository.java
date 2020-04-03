@@ -1,7 +1,7 @@
 package com.greggvandycke.Apollo.repositories;
 
 import com.greggvandycke.Apollo.models.Theater;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TheaterRepository extends CrudRepository<Theater, Long> {
+public interface TheaterRepository extends JpaRepository<Theater, Long> {
 }
