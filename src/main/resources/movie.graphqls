@@ -24,3 +24,8 @@ type Theater {
     name: String
     location: String
 }
+
+input CredentialsInputDto {
+username: String!
+password: String!
+}

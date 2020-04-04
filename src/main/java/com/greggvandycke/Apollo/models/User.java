@@ -1,4 +1,4 @@
-package com.greggvandycke.Apollo.auth.model;
+package com.greggvandycke.Apollo.models;
 
 import lombok.Data;
 
