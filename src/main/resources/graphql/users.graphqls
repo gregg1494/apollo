@@ -1,0 +1,24 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type User {
+    id: ID
+    name: String
+    username: String
+    password: String
+}
+
+type Query {
+    users: [User]
+#    findByUsername: User
+#    existsByUsername: Boolean
+}
+
+type Mutation {
+    createUser(name: String!, username: String!, password: String!): User!
+    updateUser(id: ID!, name: String!, username: String!, password: String!): User!
+    deleteUser(id: ID!): Boolean
+}
+
