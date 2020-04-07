@@ -1,0 +1,15 @@
+type Theater {
+    id: ID
+    name: String
+    location: String
+}
+
+extend type Query {
+    theaters: [Theater]
+}
+
+extend type Mutation {
+    createTheater(name: String!, location: String!): Theater!
+    updateTheater(id: ID!, name: String!, location: String!): Theater!
+    deleteTheater(id: ID!): Boolean
+}
