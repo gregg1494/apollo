@@ -55,4 +55,10 @@ public class TheaterService {
 
 		throw new NotFoundException("No found theater to update!");
 	}
+
+	@Transactional(readOnly = true)
+	public Theater getTheater(long id) {
+		Optional<Theater> optionalTheater = theaterRepository.findById(id);
+		return optionalTheater.orElse(null);
+	}
 }

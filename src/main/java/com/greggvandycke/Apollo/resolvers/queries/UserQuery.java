@@ -15,14 +15,14 @@ public class UserQuery implements GraphQLQueryResolver {
 	private UserService userService;
 
 	public List<User> users() {
-		return userService.findAll();
+		return userService.users();
 	}
 
-//	public User findByUsername(String username) {
-//		return userService.findByUsername(username);
-//	}
-//
-//	public Boolean existsByUsername(String username) {
-//		return userService.existsByUsername(username);
-//	}
+	public User findByUsername(String username) {
+		return userService.findByUsername(username);
+	}
+
+	public Boolean existsByUsername(String username) {
+		return userService.existsByUsername(username);
+	}
 }

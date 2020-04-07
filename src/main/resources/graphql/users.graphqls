@@ -4,7 +4,7 @@ schema {
 }
 
 type User {
-    id: ID
+    id: ID!
     name: String
     username: String
     password: String
@@ -12,8 +12,8 @@ type User {
 
 type Query {
     users: [User]
-#    findByUsername: User
-#    existsByUsername: Boolean
+    findByUsername(username: String): User
+    existsByUsername(username: String): Boolean
 }
 
 type Mutation {

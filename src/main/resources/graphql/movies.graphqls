@@ -1,11 +1,12 @@
 type Movie {
-    id: ID
+    id: ID!
     title: String
     length: Int
 }
 
 extend type Query {
     movies: [Movie]
+    getMovie(id: ID): Movie
 }
 
 extend type Mutation {
