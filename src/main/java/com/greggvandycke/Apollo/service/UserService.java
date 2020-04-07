@@ -66,14 +66,14 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-//	@Transactional
-//	public User findByUsername(String username) {
-//		Optional<User> optionalUser = userRepository.findByUsername(username);
-//		return optionalUser.orElse(null);
-//	}
-//
-//	@Transactional
-//	public Boolean existsByUsername(String username) {
-//		return userRepository.existsByUsername(username);
-//	}
+	@Transactional
+	public User findByUsername(String username) {
+		Optional<User> optionalUser = userRepository.findByUsername(username);
+		return optionalUser.orElse(null);
+	}
+
+	@Transactional
+	public Boolean existsByUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
 }

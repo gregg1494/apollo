@@ -1,11 +1,12 @@
 type Theater {
-    id: ID
+    id: ID!
     name: String
     location: String
 }
 
 extend type Query {
     theaters: [Theater]
+    getTheater(id: ID): Theater
 }
 
 extend type Mutation {

@@ -56,4 +56,10 @@ public class MovieService {
 
 		throw new NotFoundException("No found movie to update!");
 	}
+
+	@Transactional(readOnly = true)
+	public Movie getMovie(long id) {
+		Optional<Movie> optionalMovie = movieRepository.findById(id);
+		return optionalMovie.orElse(null);
+	}
 }
