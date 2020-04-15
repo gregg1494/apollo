@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface TheaterRepository extends JpaRepository<Theater, Long> {
 
-//	Optional<Theater> getTheater(long id);
 }
