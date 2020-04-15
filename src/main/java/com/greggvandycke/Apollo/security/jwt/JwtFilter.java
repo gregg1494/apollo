@@ -44,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-		}else{
+		} else{
 			log.info("token not presented...");
 		}
 

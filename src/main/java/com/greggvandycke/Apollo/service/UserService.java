@@ -11,6 +11,7 @@ import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,9 @@ public class UserService {
 		return user;
 	}
 
+
 	@GraphQLQuery
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
 	public List<User> users() {
 		return userRepository.findAll();

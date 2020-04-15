@@ -7,6 +7,7 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class MovieService {
 	}
 
 	@GraphQLQuery
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
 	public List<Movie> movies(){
 		return movieRepository.findAll();
