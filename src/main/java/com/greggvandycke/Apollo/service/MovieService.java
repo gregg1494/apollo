@@ -71,4 +71,17 @@ public class MovieService {
 		Optional<Movie> optionalMovie = movieRepository.findById(id);
 		return optionalMovie.orElse(null);
 	}
+
+	@GraphQLQuery
+	@Transactional(readOnly = true)
+	public Movie findByTitle(String title) {
+		Optional<Movie> optionalMovie = movieRepository.findByTitle(title);
+		return optionalMovie.orElse(null);
+	}
+
+	@GraphQLQuery
+	@Transactional(readOnly = true)
+	public Boolean existsByTitle(String title) {
+		return movieRepository.existsByTitle(title);
+	}
 }
