@@ -8,7 +8,8 @@ class NavigationBar extends React.Component {
                 <Navbar.Brand href="#home"> <img src="http://www.emoji.co.uk/files/phantom-open-emojis/objects-phantom/12785-movie-camera.png"  width="30" height="30" alt="brand"/> Apollo </Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="#movies">Movies</Nav.Link>
-                    <Nav.Link href="#theaters">Theaters</Nav.Link>
+                    <Nav.Link href="#latest">Latest</Nav.Link>
+                    <Nav.Link href="#favorites">Favorites</Nav.Link>
                 </Nav>
             </Navbar>
         );
