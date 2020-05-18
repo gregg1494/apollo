@@ -9,7 +9,7 @@ class Footer extends React.Component {
             <Navbar fixed="bottom" bg="dark" variant="dark">
                 <Container>
                     <Col lg={12} className="text-center text-muted">
-                        <div>{fullYear}-{fullYear+1}, All Rights Reserved by Gregg Van Dycke</div>
+                        <div>{fullYear}-{fullYear+1}, All Rights Reserved by Gregg Van Dycke &#128526;</div>
                     </Col>
                 </Container>
             </Navbar>
