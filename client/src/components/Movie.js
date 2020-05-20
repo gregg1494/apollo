@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Col, Form, Button} from "react-bootstrap";
 
-class Movie extends Component {
+export default class Movie extends Component {
 
     constructor(props) {
         super(props);
@@ -69,5 +69,3 @@ class Movie extends Component {
         )
     }
 }
-
-export default Movie;

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {Card, Table} from 'react-bootstrap';
 
-class Movies extends Component {
+export default class Movies extends Component {
     render() {
         return (
             <Card className={'boarder boarder-dark bg-dark text-white'}>
@@ -27,5 +27,3 @@ class Movies extends Component {
         )
     }
 }
-
-export default Movies;
