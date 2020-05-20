@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Col, Form, Button} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlusCircle, faSave} from '@fortawesome/free-solid-svg-icons'
 
 export default class Movie extends Component {
 
@@ -24,7 +26,7 @@ export default class Movie extends Component {
     render() {
         return (
             <Card className={"boarder boarder-dark bg-dark text-white"}>
-                <Card.Header>Movie</Card.Header>
+                <Card.Header><FontAwesomeIcon icon={faPlusCircle}/> Movie </Card.Header>
                 <Form onSubmit={this.submitForm} id="movieFormId">
                     <Card.Body>
                         <Form.Row>
@@ -61,7 +63,7 @@ export default class Movie extends Component {
                     </Card.Body>
                     <Card.Footer style={{"textAlign":"right"}}>
                         <Button variant="success" type="submit">
-                            Submit
+                            <FontAwesomeIcon icon={faSave}/> Submit
                         </Button>
                     </Card.Footer>
                 </Form>

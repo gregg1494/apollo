@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Jumbotron} from "react-bootstrap";
-import Favorites from "./Favorites";
 
 export default class Welcome extends Component {
     render() {
