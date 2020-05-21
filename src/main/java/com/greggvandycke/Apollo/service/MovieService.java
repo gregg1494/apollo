@@ -7,9 +7,11 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +19,10 @@ import java.util.Optional;
 @GraphQLApi
 @Service
 @AllArgsConstructor
+@CrossOrigin(origins="http://localhost:3000")
 public class MovieService {
 
-	private MovieRepository movieRepository;
+	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
 	@Transactional
@@ -32,13 +35,13 @@ public class MovieService {
 	}
 
 	@GraphQLQuery
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
 	public List<Movie> movies(){
 		return movieRepository.findAll();
 	}
 
-	@GraphQLQuery
+	@GraphQLMutation
 	@Transactional
 	public boolean deleteMovie(long id) {
 		movieRepository.deleteById(id);
