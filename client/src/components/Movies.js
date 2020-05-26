@@ -9,26 +9,38 @@ export default class Movies extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            error: null,
+            isLoaded: false,
             movies: []
         };
     }
 
     componentDidMount() {
-        axios({
-            url: 'http://localhost:8080/graphql',
-            method: 'get',
-            data: {
-                query: `
-                  query movies {
-                        id
-                        title
-                        length
-                    }
-                  `
-            }
-        }).then((result) => {
-            console.log(result.data)
-        });
+        const query = `query {
+                        movies {
+                            id
+                            title
+                            length
+                        }
+                    }`;
+
+        this.getMovies(query).catch(e => console.log(e));
+    }
+
+    getMovies = async (query) => {
+        try {
+            const response = await axios.post('http://localhost:8080/graphql', {
+                query
+            })
+
+            this.setState(() => ({
+                isLoaded: true,
+                movies: response.data.data.movies
+            }));
+            console.log(response.data);
+        } catch (error) {
+            this.state(() => ({ error }));
+        }
     }
 
     render() {
@@ -46,7 +58,7 @@ export default class Movies extends Component {
                         </thead>
                         <tbody>
                         <tr align={'center'}>
-                            <td colSpan={'6'}>No Movies Available</td>
+                            <td colSpan={'6'}>{this.state.movies.length}</td>
                         </tr>
                         </tbody>
                     </Table>
@@ -54,4 +66,7 @@ export default class Movies extends Component {
             </Card>
         )
     }
+
+
+
 }
