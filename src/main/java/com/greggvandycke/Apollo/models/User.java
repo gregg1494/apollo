@@ -20,38 +20,4 @@ public class User implements Serializable {
 	private String password;
 	private String email;
 	private String token;
-	private Boolean enabled;
-
-	@ManyToOne
-	private Role role;
-
-	@Transient
-	private List<Role> roles = new ArrayList<>();
-
-	@Transient
-	private String beautifyRoleName;
-
-	// Temp field used when add or update user
-	@Transient
-	private String userPassword;
-
-
-	public List<Role> getRoles() {
-		roles.clear();
-		roles.add(role);
-		return roles;
-	}
-
-
-	public String getBeautifyRoleName() {
-		if (role == null) {
-			return beautifyRoleName;
-		}
-		if (role.getName() == RoleName.ROLE_ADMIN) {
-			beautifyRoleName = "Admin";
-		} else {
-			beautifyRoleName = "User";
-		}
-		return beautifyRoleName;
-	}
 }

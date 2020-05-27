@@ -14,13 +14,4 @@ public class Movie {
 	private long id;
 	private String title;
 	private int length;
-
-	@Override
-	public String toString() {
-		return "Movie{" +
-				"id=" + id +
-				", title='" + title + '\'' +
-				", length=" + length +
-				'}';
-	}
 }
