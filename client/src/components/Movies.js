@@ -29,15 +29,15 @@ export default class Movies extends Component {
 
     getMovies = async (query) => {
         try {
-            const response = await axios.post('http://localhost:8080/graphql', {
+            const response = await axios.post(process.env.REACT_APP_API_ENDPOINT, {
                 query
-            })
+            });
 
             this.setState(() => ({
                 isLoaded: true,
                 movies: response.data.data.movies
             }));
-            console.log(response.data);
+
         } catch (error) {
             this.state(() => ({ error }));
         }
@@ -57,16 +57,23 @@ export default class Movies extends Component {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr align={'center'}>
-                            <td colSpan={'6'}>{this.state.movies.length}</td>
-                        </tr>
+                        {
+                            this.state.movies.length === 0 ?
+                                <tr align={'center'}>
+                                    <td colSpan={'6'}>No Movies Available</td>
+                                </tr> :
+                                this.state.movies.map((movie) => (
+                                    <tr key={movie.id}>
+                                        <td>{movie.id}</td>
+                                        <td>{movie.title}</td>
+                                        <td>{movie.length}</td>
+                                    </tr>
+                                ))
+                        }
                         </tbody>
                     </Table>
                 </Card.Body>
             </Card>
         )
     }
-
-
-
 }
