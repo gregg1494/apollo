@@ -3,7 +3,6 @@ package com.greggvandycke.Apollo.service;
 import com.greggvandycke.Apollo.models.Movie;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
-import com.greggvandycke.Apollo.repositories.UserFavoriteRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLMutation;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @GraphQLApi
@@ -24,8 +24,6 @@ import java.util.Optional;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final UserFavoriteRepository userFavoriteRepository;
-	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
@@ -94,7 +92,9 @@ public class UserService {
 	}
 
 	@GraphQLQuery
-	public Movie getFavorites(@GraphQLContext User user) {
-		return movieRepository.findById(userFavoriteRepository.findFavoritesByUserId(user.getId()).get().getMovieId()).get();
+	public List<Movie> getFavorites(@GraphQLContext User u) {
+		User user = userRepository.findById(u.getId()).get();
+		return user.getMovies();
+
 	}
 }
