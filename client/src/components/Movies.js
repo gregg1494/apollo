@@ -45,10 +45,10 @@ export default class Movies extends Component {
 
     render() {
         return (
-            <Card className={'boarder boarder-dark bg-dark text-white'}>
+            <Card className="boarder boarder-dark bg-dark text-white">
                 <Card.Header><FontAwesomeIcon icon={faList}/> Movies </Card.Header>
                 <Card.Body>
-                    <Table striped bordered hover variant={'dark'}>
+                    <Table striped bordered hover variant="dark">
                         <thead>
                         <tr>
                             <th>id</th>
@@ -59,8 +59,8 @@ export default class Movies extends Component {
                         <tbody>
                         {
                             this.state.movies.length === 0 ?
-                                <tr align={'center'}>
-                                    <td colSpan={'6'}>No Movies Available</td>
+                                <tr align="center">
+                                    <td colSpan="6">No Movies Available</td>
                                 </tr> :
                                 this.state.movies.map((movie) => (
                                     <tr key={movie.id}>

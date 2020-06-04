@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Card, Col, Form, Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faSave, faUndo} from '@fortawesome/free-solid-svg-icons'
-
 import axios from 'axios';
 
 export default class Movie extends Component {
@@ -78,27 +77,27 @@ export default class Movie extends Component {
                 <Form onSubmit={this.submitForm} onReset={this.resetState} id="movieFormId">
                     <Card.Body>
                         <Form.Row>
-                            <Form.Group as={Col} controlId={"formGroupId"}>
+                            <Form.Group as={Col} controlId="formGroupId">
                                 <Form.Label>Id</Form.Label>
-                                <Form.Control required autoComplete={"off"}
+                                <Form.Control required autoComplete="off"
                                     type="test"
                                     name="id"
                                     value={id} onChange={this.movieChange}
                                     className={"bg-dark text-white"}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId={"formGroupTitle"}>
+                            <Form.Group as={Col} controlId="formGroupTitle">
                                 <Form.Label>Title</Form.Label>
-                                <Form.Control required autoComplete={"off"}
+                                <Form.Control required autoComplete="off"
                                     type="test"
                                     name="title"
                                     value={title} onChange={this.movieChange}
                                     className={"bg-dark text-white"}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId={"formGroupLength"}>
+                            <Form.Group as={Col} controlId="formGroupLength">
                                 <Form.Label>Length</Form.Label>
-                                <Form.Control required autoComplete={"off"}
+                                <Form.Control required autoComplete="off"
                                     type="test"
                                     name="length"
                                     value={length} onChange={this.movieChange}

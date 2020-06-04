@@ -1,7 +1,11 @@
 package com.greggvandycke.Apollo.service;
 
+import com.greggvandycke.Apollo.models.Movie;
 import com.greggvandycke.Apollo.models.User;
+import com.greggvandycke.Apollo.repositories.MovieRepository;
+import com.greggvandycke.Apollo.repositories.UserFavoriteRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
+import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
@@ -9,7 +13,6 @@ import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +24,10 @@ import java.util.Optional;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final UserFavoriteRepository userFavoriteRepository;
+	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
-	@Transactional
 	public User createUser(String name, String username, String password) {
 		User user = new User();
 		user.setName(name);
@@ -34,20 +38,22 @@ public class UserService {
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public List<User> users() {
 		return userRepository.findAll();
 	}
 
+	@GraphQLQuery
+	public User user(long id) {
+		return userRepository.findById(id).orElse(null);
+	}
+
 	@GraphQLMutation
-	@Transactional
 	public boolean deleteUser(long id) {
 		userRepository.deleteById(id);
 		return true;
 	}
 
 	@GraphQLMutation
-	@Transactional
 	public User updateUser(long id, String name, String username, String password) throws NotFoundException {
 		Optional<User> optionalUser = userRepository.findById(id);
 
@@ -72,21 +78,23 @@ public class UserService {
 	}
 
 	@GraphQLQuery
-	@Transactional
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 
 	@GraphQLQuery
-	@Transactional
 	public User findByUsername(String username) {
 		Optional<User> optionalUser = userRepository.findByUsername(username);
 		return optionalUser.orElse(null);
 	}
 
 	@GraphQLQuery
-	@Transactional
 	public Boolean existsByUsername(String username) {
 		return userRepository.existsByUsername(username);
+	}
+
+	@GraphQLQuery
+	public Movie getFavorites(@GraphQLContext User user) {
+		return movieRepository.findById(userFavoriteRepository.findFavoritesByUserId(user.getId()).get().getMovieId()).get();
 	}
 }
