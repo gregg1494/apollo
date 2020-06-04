@@ -21,7 +21,6 @@ public class TheaterService {
 	private final TheaterRepository theaterRepository;
 
 	@GraphQLMutation
-	@Transactional
 	public Theater createTheater(String name, String location) {
 		Theater theater = new Theater();
 		theater.setName(name);
@@ -31,19 +30,16 @@ public class TheaterService {
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public List<Theater> theaters(){
 		return theaterRepository.findAll();
 	}
 
 	@GraphQLMutation
-	@Transactional
 	public void deleteTheater(long id) {
 		theaterRepository.deleteById(id);
 	}
 
 	@GraphQLMutation
-	@Transactional
 	public Theater updateTheater(long id, String name, String location) throws NotFoundException {
 		Optional<Theater> optionalTheater = theaterRepository.findById(id);
 
@@ -65,7 +61,6 @@ public class TheaterService {
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public Theater getTheater(long id) {
 		Optional<Theater> optionalTheater = theaterRepository.findById(id);
 		return optionalTheater.orElse(null);

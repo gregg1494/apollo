@@ -3,11 +3,12 @@ package com.greggvandycke.Apollo.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name="theaters")
-public class Theater {
+public class Theater implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

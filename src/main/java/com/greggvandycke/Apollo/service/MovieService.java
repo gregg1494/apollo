@@ -9,7 +9,6 @@ import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
@@ -25,7 +24,6 @@ public class MovieService {
 	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
-	@Transactional
 	public Movie createMovie(String title, int length) {
 		Movie movie = new Movie();
 		movie.setTitle(title);
@@ -35,20 +33,17 @@ public class MovieService {
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public List<Movie> movies(){
 		return movieRepository.findAll();
 	}
 
 	@GraphQLMutation
-	@Transactional
 	public boolean deleteMovie(long id) {
 		movieRepository.deleteById(id);
 		return true;
 	}
 
 	@GraphQLMutation
-	@Transactional
 	public Movie updateMovie(long id, String title, int length) throws NotFoundException {
 		Optional<Movie> optionalMovie = movieRepository.findById(id);
 
@@ -70,22 +65,18 @@ public class MovieService {
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public Movie getMovie(long id) {
 		Optional<Movie> optionalMovie = movieRepository.findById(id);
-		log.debug(optionalMovie.get().getTitle());
 		return optionalMovie.orElse(null);
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public Movie findByTitle(String title) {
 		Optional<Movie> optionalMovie = movieRepository.findByTitle(title);
 		return optionalMovie.orElse(null);
 	}
 
 	@GraphQLQuery
-	@Transactional(readOnly = true)
 	public Boolean existsByTitle(String title) {
 		return movieRepository.existsByTitle(title);
 	}
