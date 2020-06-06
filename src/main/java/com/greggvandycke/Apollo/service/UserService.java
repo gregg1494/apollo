@@ -13,9 +13,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @GraphQLApi
@@ -24,6 +25,7 @@ import java.util.Set;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
@@ -93,8 +95,25 @@ public class UserService {
 
 	@GraphQLQuery
 	public List<Movie> getFavorites(@GraphQLContext User u) {
-		User user = userRepository.findById(u.getId()).get();
-		return user.getMovies();
+		Optional<User> optionalUser = userRepository.findById(u.getId());
+		return optionalUser.map(User::getMovies).orElse(null);
+	}
 
+	@GraphQLMutation
+	public Movie addFavorite(long userId, long movieId) {
+		Movie movie = movieRepository.findById(movieId).orElse(null);
+		User user = userRepository.getOne(userId);
+		user.getMovies().add(movie);
+		userRepository.save(user);
+		return movie;
+	}
+
+	@GraphQLMutation
+	public boolean removeFavorite(long userId, long movieId) {
+		Movie movie = movieRepository.findById(movieId).orElse(null);
+		User user = userRepository.getOne(userId);
+		user.getMovies().remove(movie);
+		userRepository.save(user);
+		return true;
 	}
 }
