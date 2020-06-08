@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @SpringBootApplication
 public class ApolloApplication {
@@ -21,6 +22,7 @@ public class ApolloApplication {
 	@Bean
 	public CommandLineRunner mappingDemo(MovieRepository movieRepository, UserRepository userRepository) {
 		return args -> {
+			Date date = new Date();
 
 			// create user1
 			User user1 = new User("Max Jones", "max123", "123", "max@gmail.com", null);

@@ -1,9 +1,11 @@
 package com.greggvandycke.Apollo.service;
 
+import com.greggvandycke.Apollo.exception.InvalidCredentialsException;
 import com.greggvandycke.Apollo.models.Movie;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
+import com.greggvandycke.Apollo.security.jwt.JwtTokenUtil;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -11,10 +13,10 @@ import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,8 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
+
+	private JwtTokenUtil jwtTokenUtil;
 
 	private final UserRepository userRepository;
 	private final MovieRepository movieRepository;
@@ -37,6 +41,7 @@ public class UserService {
 		return user;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GraphQLQuery
 	public List<User> users() {
 		return userRepository.findAll();
@@ -115,5 +120,23 @@ public class UserService {
 		user.getMovies().remove(movie);
 		userRepository.save(user);
 		return true;
+	}
+
+	@GraphQLMutation
+	public String signin(String username, String password) throws InvalidCredentialsException {
+		Optional<User> user = userRepository.findByUsername(username);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if(user.isPresent()) {
+			if(encoder.matches(password, user.get().getPassword())) {
+				log.info("success...");
+				return jwtTokenUtil.generateToken(user.get().getUsername());
+			} else {
+				log.info("Invalid Credentials1");
+				throw new InvalidCredentialsException("Invalid Credentials!");
+			}
+		} else {
+			log.info("Invalid Credentials2");
+			throw new InvalidCredentialsException("Invalid Credentials!");
+		}
 	}
 }
