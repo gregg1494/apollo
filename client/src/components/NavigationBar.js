@@ -13,6 +13,7 @@ export default class NavigationBar extends Component {
                     <Link to={"/movies"} className="nav-link">Movies</Link>
                     <Link to={"/latest"} className="nav-link">Latest</Link>
                     <Link to={"/movie"} className="nav-link">Movie</Link>
+                    <Link to={"/login"} className="nav-link">Login</Link>
                 </Nav>
             </Navbar>
         );
