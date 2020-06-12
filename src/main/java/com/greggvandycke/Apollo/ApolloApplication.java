@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -24,25 +25,23 @@ public class ApolloApplication {
 		return args -> {
 			Date date = new Date();
 
-			// create user1
-			User user1 = new User("Max Jones", "max123", "123", "max@gmail.com", null);
-			User user2 = new User("Jim Bob", "jimmy12", "1234", "jim@yahoo.com", null);
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String pass = encoder.encode("123");
 
-			// save the user1
+			User user1 = new User("max123", pass, "max@gmail.com");
+			User user2 = new User("jimmy12", pass, "jim@yahoo.com");
+
 			userRepository.save(user1);
 			userRepository.save(user2);
 
-			// create three movies
 			Movie movie1 = new Movie("Coco", 123);
 			Movie movie2 = new Movie("1917", 135);
 			Movie movie3 = new Movie("Matrix", 112);
 
-			// save movies
 			movieRepository.saveAll(Arrays.asList(movie1, movie2, movie3));
 
-			// add movies to the user1
-			user1.getMovies().addAll(Arrays.asList(movie1, movie2, movie3));
-			user2.getMovies().addAll(Arrays.asList(movie1, movie3));
+			user1.getFavorites().addAll(Arrays.asList(movie1, movie2, movie3));
+			user2.getFavorites().addAll(Arrays.asList(movie1, movie3));
 
 			userRepository.save(user1);
 			userRepository.save(user2);

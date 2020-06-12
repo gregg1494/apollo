@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name="theaters")
-public class Theater implements Serializable {
+public class Theater extends Auditable<String> implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -34,7 +34,6 @@ public class UserService {
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
 		User user = new User();
-		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(password);
 		userRepository.save(user);
@@ -65,9 +64,6 @@ public class UserService {
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
 
-			if (name != null) {
-				user.setName(name);
-			}
 			if (username != null) {
 				user.setUsername(username);
 			}
@@ -101,14 +97,14 @@ public class UserService {
 	@GraphQLQuery
 	public List<Movie> getFavorites(@GraphQLContext User u) {
 		Optional<User> optionalUser = userRepository.findById(u.getId());
-		return optionalUser.map(User::getMovies).orElse(null);
+		return optionalUser.map(User::getFavorites).orElse(null);
 	}
 
 	@GraphQLMutation
 	public Movie addFavorite(long userId, long movieId) {
 		Movie movie = movieRepository.findById(movieId).orElse(null);
 		User user = userRepository.getOne(userId);
-		user.getMovies().add(movie);
+		user.getFavorites().add(movie);
 		userRepository.save(user);
 		return movie;
 	}
@@ -117,13 +113,13 @@ public class UserService {
 	public boolean removeFavorite(long userId, long movieId) {
 		Movie movie = movieRepository.findById(movieId).orElse(null);
 		User user = userRepository.getOne(userId);
-		user.getMovies().remove(movie);
+		user.getFavorites().remove(movie);
 		userRepository.save(user);
 		return true;
 	}
 
 	@GraphQLMutation
-	public String signin(String username, String password) throws InvalidCredentialsException {
+	public String login(String username, String password) throws InvalidCredentialsException {
 		Optional<User> user = userRepository.findByUsername(username);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(user.isPresent()) {
@@ -138,5 +134,11 @@ public class UserService {
 			log.info("Invalid Credentials2");
 			throw new InvalidCredentialsException("Invalid Credentials!");
 		}
+	}
+
+	@GraphQLMutation
+	public boolean logout(String username) {
+		jwtTokenUtil.invalidateToken(username);
+		return true;
 	}
 }

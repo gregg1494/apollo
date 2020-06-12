@@ -36,7 +36,6 @@ public class JwtFilter extends OncePerRequestFilter {
         authToken = optReq.map(req -> req.getHeader("Authorization")).filter(token -> !token.isEmpty())
                 .map(token -> token.replace("Bearer ", "")).orElse(null);
 
-
         if (authToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtTokenUtil.getUsernameFromToken(authToken));
 

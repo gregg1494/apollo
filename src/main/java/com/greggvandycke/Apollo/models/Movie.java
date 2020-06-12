@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name="movies")
-public class Movie implements Serializable {
+public class Movie extends Auditable<String> implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class Movie implements Serializable {
 	private String title;
 	private int length;
 
-	@ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> users = new ArrayList<>();
 
 	public Movie(String title, int length) {

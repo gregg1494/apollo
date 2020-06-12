@@ -1,27 +1,24 @@
 package com.greggvandycke.Apollo.models;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Data
+@Setter(AccessLevel.PUBLIC)
+@Getter(AccessLevel.PUBLIC)
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User extends Auditable<String> implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String name;
 	private String username;
 	private String firstname;
 	private String lastname;
@@ -40,11 +37,10 @@ public class User implements Serializable {
 			inverseJoinColumns = {
 					@JoinColumn(name = "movie_id", referencedColumnName = "id",
 							nullable = false, updatable = false)})
-	private List<Movie> movies = new ArrayList<>();
+	private List<Movie> favorites = new ArrayList<>();
 
 	@ManyToOne
 	private Role role;
-
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
@@ -58,16 +54,14 @@ public class User implements Serializable {
 	@Transient
 	private String beautifyRoleName;
 
-	//Temp field used when add or update user
+	// Temp field used when add or update user
 	@Transient
 	private String userPassword;
 
-	public User(String name, String username, String password, String email, String token) {
-		this.name = name;
+	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.token = token;
 	}
 
 	public Long getId() {

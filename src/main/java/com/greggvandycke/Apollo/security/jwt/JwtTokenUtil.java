@@ -15,10 +15,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JwtTokenUtil implements Serializable {
 
@@ -29,6 +32,7 @@ public class JwtTokenUtil implements Serializable {
 
     private Map<String,String> userTokensMap = new HashMap();
 
+    @Autowired
     private UserRepository userRepository;
 
     public String getUsernameFromToken(String token) {
@@ -65,7 +69,7 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
         // Add token to database
         Optional<User> user = userRepository.findByUsername(subject);
-        user.ifPresent(value -> value.setToken(token));
+        user.get().setToken(token);
         userRepository.save(user.get());
 
         getUserTokensMap().put(subject, token);
@@ -75,14 +79,14 @@ public class JwtTokenUtil implements Serializable {
 
     public void invalidateToken(String username) {
         getUserTokensMap().remove(username);
-        //Remove token from DB
+        // Remove token from DB
         Optional<User> user = userRepository.findByUsername(username);
         user.get().setToken("");
         userRepository.save(user.get());
     }
 
     public Map<String, String> getUserTokensMap() {
-        //query will be called once when jwtUtil created//
+        // query will be called once when jwtUtil created
         if(userTokensMap.isEmpty()) {
             userRepository.findAll().forEach( (user) -> {
                 userTokensMap.put(user.getUsername(),user.getToken());
