@@ -20,12 +20,15 @@ public class Movie extends Auditable<String> implements Serializable {
 
 	private String title;
 	private int length;
+	private String url;
 
 	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> users = new ArrayList<>();
 
-	public Movie(String title, int length) {
+	public Movie(String title, int length, String url) {
 		this.title = title;
 		this.length = length;
+		this.url = url;
 	}
 }
+

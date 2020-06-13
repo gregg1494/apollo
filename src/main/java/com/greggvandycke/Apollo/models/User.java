@@ -58,7 +58,9 @@ public class User extends Auditable<String> implements Serializable {
 	@Transient
 	private String userPassword;
 
-	public User(String username, String password, String email) {
+	public User(String firstname, String lastname, String username, String password, String email) {
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -171,3 +173,4 @@ public class User extends Auditable<String> implements Serializable {
 	}
 
 }
+
