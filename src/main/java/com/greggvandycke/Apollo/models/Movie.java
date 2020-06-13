@@ -31,4 +31,3 @@ public class Movie extends Auditable<String> implements Serializable {
 		this.url = url;
 	}
 }
-
