@@ -18,19 +18,19 @@ import java.util.Date;
 @Setter(AccessLevel.PROTECTED)
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable<U>
+public abstract class Auditable<U>
 {
-//    @CreatedBy
-//    @Column(name = "created_by")
-//    private U createdBy;
+    @CreatedBy
+    @Column(name = "created_by")
+    private U createdBy;
 
     @CreatedDate
     @Column(name = "created_date")
     private Date createdDate;
 
-//    @LastModifiedBy
-//    @Column(name = "last_modified_by")
-//    private U lastModifiedBy;
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    private U lastModifiedBy;
 
     @LastModifiedDate
     @Column(name = "last_modified_date")

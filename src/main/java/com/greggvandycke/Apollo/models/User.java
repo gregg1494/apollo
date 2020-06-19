@@ -2,6 +2,7 @@ package com.greggvandycke.Apollo.models;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User extends Auditable<String> implements Serializable {
 
 	@Id
