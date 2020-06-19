@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Player, ControlBar } from 'video-react';
 import axios from "axios";
 
-export default class Latest extends Component {
+export default class Movie extends Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ export default class Latest extends Component {
     componentDidMount() {
 
         const query = `query getMovie {
-                            movie(id: 4) {
+                            movie(id: 5) {
                                 title
                                 url
                             }
@@ -41,7 +41,6 @@ export default class Latest extends Component {
                 console.log(response.data.data.movie.url);
 
                 this.setState({url: response.data.data.movie.url});
-                console.log(this.state.url);
             });
         } catch (error) {
             this.state(() => ({ error }));
