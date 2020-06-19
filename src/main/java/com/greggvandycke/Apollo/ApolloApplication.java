@@ -1,5 +1,6 @@
 package com.greggvandycke.Apollo;
 
+import com.greggvandycke.Apollo.config.AuditorAwareImpl;
 import com.greggvandycke.Apollo.models.Movie;
 import com.greggvandycke.Apollo.models.Role;
 import com.greggvandycke.Apollo.models.RoleName;
@@ -11,15 +12,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class ApolloApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloApplication.class, args);
+	}
+
+	@Bean
+	public AuditorAware<String> auditorAware() {
+		return new AuditorAwareImpl();
 	}
 
 	@Bean
@@ -45,9 +54,9 @@ public class ApolloApplication {
 			userRepository.save(user1);
 			userRepository.save(user2);
 
-			Movie movie1 = new Movie("Coco", 123, "https://media.w3.org/2010/05/sintel/trailer_hd.mp4");
-			Movie movie2 = new Movie("1917", 135, "https://media.w3.org/2010/05/sintel/trailer_hd.mp4");
-			Movie movie3 = new Movie("Matrix", 144, "https://media.w3.org/2010/05/sintel/trailer_hd.mp4");
+			Movie movie1 = new Movie("Coco", 123, "https://raw.githubusercontent.com/gregg1494/video-library/master/Coco.mp4");
+			Movie movie2 = new Movie("1917", 135, "https://raw.githubusercontent.com/gregg1494/video-library/master/1917.mp4");
+			Movie movie3 = new Movie("The Lion King", 144, "https://raw.githubusercontent.com/gregg1494/video-library/master/TheLionKing.mp4");
 
 			movieRepository.saveAll(Arrays.asList(movie1, movie2, movie3));
 

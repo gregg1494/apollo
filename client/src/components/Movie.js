@@ -15,7 +15,7 @@ export default class Movie extends Component {
     componentDidMount() {
 
         const query = `query getMovie {
-                            movie(id: 5) {
+                            movie(id: 6) {
                                 title
                                 url
                             }
