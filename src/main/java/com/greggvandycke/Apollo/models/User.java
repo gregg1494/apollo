@@ -173,4 +173,3 @@ public class User extends Auditable<String> implements Serializable {
 	}
 
 }
-

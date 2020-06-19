@@ -1,9 +1,13 @@
 package com.greggvandycke.Apollo.service;
 
 import com.greggvandycke.Apollo.exception.InvalidCredentialsException;
+import com.greggvandycke.Apollo.exception.RegistrationException;
 import com.greggvandycke.Apollo.models.Movie;
+import com.greggvandycke.Apollo.models.Role;
+import com.greggvandycke.Apollo.models.RoleName;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
+import com.greggvandycke.Apollo.repositories.RoleRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import com.greggvandycke.Apollo.security.jwt.JwtTokenUtil;
 import io.leangen.graphql.annotations.GraphQLContext;
@@ -30,6 +34,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final MovieRepository movieRepository;
+	private final RoleRepository roleRepository;
 
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
@@ -116,6 +121,18 @@ public class UserService {
 		user.getFavorites().remove(movie);
 		userRepository.save(user);
 		return true;
+	}
+
+	@GraphQLMutation
+	public User register(String firstname, String lastname, String email, String username, String password, String confirmPassword) throws RegistrationException {
+		if(!password.equals(confirmPassword)) {
+			throw new RegistrationException("Passwords do not match");
+		}
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPassword = encoder.encode(password);
+		User user = new User(firstname, lastname, username, encodedPassword, email);
+		userRepository.save(user);
+		return user;
 	}
 
 	@GraphQLMutation

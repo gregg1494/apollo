@@ -1,8 +1,11 @@
 package com.greggvandycke.Apollo;
 
 import com.greggvandycke.Apollo.models.Movie;
+import com.greggvandycke.Apollo.models.Role;
+import com.greggvandycke.Apollo.models.RoleName;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
+import com.greggvandycke.Apollo.repositories.RoleRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,15 +23,24 @@ public class ApolloApplication {
 	}
 
 	@Bean
-	public CommandLineRunner mappingDemo(MovieRepository movieRepository, UserRepository userRepository) {
+	public CommandLineRunner mappingDemo(MovieRepository movieRepository, UserRepository userRepository, RoleRepository roleRepository) {
 
 		return args -> {
 
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			String pass = encoder.encode("123");
 
+			Role role1 = new Role(RoleName.ROLE_USER);
+			Role role2 = new Role(RoleName.ROLE_ADMIN);
+
+			roleRepository.save(role1);
+			roleRepository.save(role2);
+
 			User user1 = new User("max", "jones", "max123", pass, "max@gmail.com");
 			User user2 = new User("jim", "john", "jimmy12", pass, "jim@yahoo.com");
+
+			user1.setRole(role1);
+			user2.setRole(role2);
 
 			userRepository.save(user1);
 			userRepository.save(user2);
