@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 
 export default class Latest extends Component {
-    render() {
-        return <div className="text-white">Latest</div>
+
+    render () {
+        return (
+            <h1>Latest</h1>
+        );
     }
 }
