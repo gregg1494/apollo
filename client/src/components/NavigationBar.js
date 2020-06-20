@@ -12,7 +12,6 @@ export default class NavigationBar extends Component {
                 <Nav className="mr-auto">
                     <Link to={"/movies"} className="nav-link">Movies</Link>
                     <Link to={"/latest"} className="nav-link">Latest</Link>
-                    <Link to={"/movie"} className="nav-link">Movie</Link>
                     <Link to={"/login"} className="nav-link">Login</Link>
                     <Link to={"/logout"} className="nav-link">Logout</Link>
                 </Nav>

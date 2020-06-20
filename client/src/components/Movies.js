@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Card, Table} from 'react-bootstrap';
+import {Card, Table, Button, ButtonGroup} from 'react-bootstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faList} from '@fortawesome/free-solid-svg-icons'
+import {faList, faThumbsUp} from '@fortawesome/free-solid-svg-icons'
 
 export default class Movies extends Component {
 
@@ -43,6 +43,16 @@ export default class Movies extends Component {
         }
     }
 
+    fetch = (movie) => {
+        console.log(movie.title);
+        this.props.history.push({
+            pathname:"/movie",
+            state:{
+                key: movie.id
+             }
+           });
+    };
+
     render() {
         return (
             <Card className="boarder boarder-dark bg-dark text-white">
@@ -67,6 +77,12 @@ export default class Movies extends Component {
                                         <td>{movie.id}</td>
                                         <td>{movie.title}</td>
                                         <td>{movie.length}</td>
+                                        <td>
+                                            <ButtonGroup>
+                                                <Button size="md" variant="outline-primary" onClick={this.fetch.bind(this, movie)}> <FontAwesomeIcon icon={faThumbsUp}/></Button>
+                                            </ButtonGroup>
+                                        </td>
+                                        
                                     </tr>
                                 ))
                         }

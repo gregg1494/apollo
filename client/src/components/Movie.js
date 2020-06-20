@@ -14,14 +14,13 @@ export default class Movie extends Component {
 
     componentDidMount() {
 
-        const query = `query getMovie {
-                            movie(id: 6) {
-                                title
+        const query = `query getMovie($id: Long!) {
+                            movie(id: $id) {
                                 url
                             }
                        }`;
 
-        const variables = {id: 4}
+        const variables = {id: this.props.location.state.key}
 
         this.getMovie(query, variables).catch(error => console.log(error));
     }
@@ -37,7 +36,6 @@ export default class Movie extends Component {
                 query,
                 variables
             }).then(response => {
-                console.log(response.data.data.movie.title);
                 console.log(response.data.data.movie.url);
 
                 this.setState({url: response.data.data.movie.url});
