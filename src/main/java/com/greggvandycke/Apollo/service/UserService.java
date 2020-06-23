@@ -3,8 +3,6 @@ package com.greggvandycke.Apollo.service;
 import com.greggvandycke.Apollo.exception.InvalidCredentialsException;
 import com.greggvandycke.Apollo.exception.RegistrationException;
 import com.greggvandycke.Apollo.models.Movie;
-import com.greggvandycke.Apollo.models.Role;
-import com.greggvandycke.Apollo.models.RoleName;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
 import com.greggvandycke.Apollo.repositories.RoleRepository;
@@ -34,7 +32,6 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final MovieRepository movieRepository;
-	private final RoleRepository roleRepository;
 
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
@@ -125,9 +122,15 @@ public class UserService {
 
 	@GraphQLMutation
 	public User register(String firstname, String lastname, String email, String username, String password, String confirmPassword) throws RegistrationException {
+
+		if(firstname== null || lastname == null || username == null || email == null || password == null || confirmPassword == null) {
+			throw new RegistrationException("User field is null");
+		}
+
 		if(!password.equals(confirmPassword)) {
 			throw new RegistrationException("Passwords do not match");
 		}
+
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
 		User user = new User(firstname, lastname, username, encodedPassword, email);
@@ -144,12 +147,12 @@ public class UserService {
 				log.info("success...");
 				return jwtTokenUtil.generateToken(user.get().getUsername());
 			} else {
-				log.info("Invalid Credentials1");
-				throw new InvalidCredentialsException("Invalid Credentials!");
+				log.info("Invalid Credentials");
+				throw new InvalidCredentialsException("Invalid Credentials");
 			}
 		} else {
 			log.info("Invalid Credentials2");
-			throw new InvalidCredentialsException("Invalid Credentials!");
+			throw new InvalidCredentialsException("Invalid Credentials");
 		}
 	}
 
