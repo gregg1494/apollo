@@ -5,7 +5,6 @@ import com.greggvandycke.Apollo.exception.RegistrationException;
 import com.greggvandycke.Apollo.models.Movie;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
-import com.greggvandycke.Apollo.repositories.RoleRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import com.greggvandycke.Apollo.security.jwt.JwtTokenUtil;
 import io.leangen.graphql.annotations.GraphQLContext;
