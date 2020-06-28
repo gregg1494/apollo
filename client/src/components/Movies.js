@@ -44,7 +44,6 @@ export default class Movies extends Component {
     }
 
     fetch = (movie) => {
-        console.log(movie.title);
         this.props.history.push({
             pathname:"/movie",
             state:{

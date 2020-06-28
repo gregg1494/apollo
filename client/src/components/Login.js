@@ -43,13 +43,11 @@ export default class Login extends Component {
                 query,
                 variables
             }).then(response => {
-                console.log("token: " + response.data.data.login);
                 localStorage.setItem('login', JSON.stringify({
                     login: true,
                     token: response.data.data.login
                 }));
                 this.setState({login: true});
-                this.props.history.push('/');
             });
         } catch (error) {
             this.state(() => ({ error }));

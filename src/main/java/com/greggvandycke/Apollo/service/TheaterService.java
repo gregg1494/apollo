@@ -23,7 +23,6 @@ public class TheaterService {
 	public Theater createTheater(String name, String location) {
 		Theater theater = new Theater();
 		theater.setName(name);
-		theater.setLocation(location);
 		theaterRepository.save(theater);
 		return theater;
 	}
@@ -47,9 +46,6 @@ public class TheaterService {
 
 			if(name != null) {
 				theater.setName(name);
-			}
-			if(location != null) {
-				theater.setLocation(location);
 			}
 
 			theaterRepository.save(theater);

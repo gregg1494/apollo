@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import {Col, Container, Row} from "react-bootstrap";
 import './App.css';
 
 import NavigationBar from "./components/NavigationBar";
-import Welcome from './components/Welcome';
 import Footer from "./components/Footer";
 import Movie from "./components/Movie";
-
-import {Col, Container, Row} from "react-bootstrap";
 import Movies from "./components/Movies";
 import Latest from "./components/Latest";
+import Favorites from "./components/Favorites";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 
@@ -27,9 +26,9 @@ class App extends Component {
               <Row>
                   <Col lg={12} style={marginTop}>
                       <Switch>
-                          <Route path="/" exact component={Welcome}/>
-                          <Route path="/movies" exact component={Movies}/>
+                          <Route path="/" exact component={Movies}/>
                           <Route path="/latest" exact component={Latest}/>
+                          <Route path="/favorites" exact component={Favorites}/>
                           <Route path="/movie" exact component={Movie}/>
                           <Route path="/login" exact component={Login}/>
                           <Route path="/logout" exact component={Logout}/>

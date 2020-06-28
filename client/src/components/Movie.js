@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Player, ControlBar } from 'video-react';
+import {Player, ControlBar} from 'video-react';
 import axios from "axios";
 
 export default class Movie extends Component {
@@ -22,7 +22,14 @@ export default class Movie extends Component {
 
         const variables = {id: this.props.location.state.key}
 
-        this.getMovie(query, variables).catch(error => console.log(error));
+        let headers = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('login')).token}`
+            }
+          };
+
+        this.getMovie(query, variables, headers).catch(error => console.log(error));
     }
 
     componentWillUnmount() {
@@ -30,14 +37,10 @@ export default class Movie extends Component {
         this.setState({url: null});
     }
 
-    getMovie = async (query, variables) => {
+    getMovie = async (query, variables, headers) => {
         try {
-            await axios.post(process.env.REACT_APP_API_ENDPOINT, {
-                query,
-                variables
-            }).then(response => {
-                console.log(response.data.data.movie.url);
-
+            await axios.post(process.env.REACT_APP_API_ENDPOINT, {query, variables}, {headers: headers})
+            .then(response => {
                 this.setState({url: response.data.data.movie.url});
             });
         } catch (error) {
@@ -45,7 +48,7 @@ export default class Movie extends Component {
         }
     }
 
-    render () {
+    render() {
         return (
             <Player autoPlay src={this.state.url}>
                 <ControlBar autoHide={true} className="my-class" />

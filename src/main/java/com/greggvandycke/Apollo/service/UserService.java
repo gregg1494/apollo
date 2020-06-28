@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @GraphQLApi
 @Service
 @AllArgsConstructor
+@CrossOrigin(origins="http://localhost:3000")
 public class UserService {
 
 	private JwtTokenUtil jwtTokenUtil;
@@ -129,7 +131,7 @@ public class UserService {
 		if(!password.equals(confirmPassword)) {
 			throw new RegistrationException("Passwords do not match");
 		}
-
+		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
 		User user = new User(firstname, lastname, username, encodedPassword, email);

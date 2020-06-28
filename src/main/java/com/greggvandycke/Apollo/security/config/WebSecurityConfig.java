@@ -52,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/graphql/**").permitAll()
-                .antMatchers("/gui").permitAll()
                 .anyRequest().authenticated();
         JwtFilter authenticationFilter = new JwtFilter(userDetailsService(), jwtTokenUtil);
         httpSecurity
