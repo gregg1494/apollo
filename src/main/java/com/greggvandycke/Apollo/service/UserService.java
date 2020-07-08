@@ -15,6 +15,7 @@ import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,7 +44,7 @@ public class UserService {
 		return user;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@GraphQLQuery
 	public List<User> users() {
 		return userRepository.findAll();
@@ -161,5 +162,14 @@ public class UserService {
 	public boolean logout(String username) {
 		jwtTokenUtil.invalidateToken(username);
 		return true;
+	}
+
+	@GraphQLQuery
+	public User verifyToken(String token) {
+		User user =  userRepository.findByToken(token);
+		if(jwtTokenUtil.isTokenValid(token, (UserDetails) user)) {
+			return user;
+		}
+		return null;
 	}
 }

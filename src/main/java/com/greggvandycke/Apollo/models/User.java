@@ -22,8 +22,8 @@ public class User extends Auditable<String> implements Serializable {
 	private Long id;
 
 	private String username;
-	private String firstname;
-	private String lastname;
+	private String firstName;
+	private String lastName;
 	private String password;
 	private String email;
 	private String token;
@@ -60,9 +60,9 @@ public class User extends Auditable<String> implements Serializable {
 	@Transient
 	private String userPassword;
 
-	public User(String firstname, String lastname, String username, String password, String email) {
-		this.firstname = firstname;
-		this.lastname = lastname;
+	public User(String firstName, String lastName, String username, String password, String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -92,20 +92,20 @@ public class User extends Auditable<String> implements Serializable {
 		this.password = password;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {

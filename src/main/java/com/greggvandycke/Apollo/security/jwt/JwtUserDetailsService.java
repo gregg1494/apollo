@@ -26,7 +26,6 @@ public class JwtUserDetailsService implements UserDetailsService {
             return getJwtUser(user.get());
         } else {
             log.info("user not found");
-            //throw new UsernameNotFoundException(String.format("User not found with username '%s'.", username));
             return null;
         }
     }
@@ -35,8 +34,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new JwtUser(
                 user.getId(),
                 user.getUsername(),
-                user.getFirstname(),
-                user.getLastname(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getEmail(),
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority(user.getRole().getRoleName().name())),
