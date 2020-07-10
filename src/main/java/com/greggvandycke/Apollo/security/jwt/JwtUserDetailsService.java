@@ -3,6 +3,7 @@ package com.greggvandycke.Apollo.security.jwt;
 import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,11 +16,11 @@ import java.util.Optional;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        log.info("load user...");
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
             log.info("user:: {}", user.get().getUsername());
@@ -39,8 +40,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 user.getEmail(),
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority(user.getRole().getRoleName().name())),
-                user.getEnabled(),
-                null
+                user.getEnabled()
         );
     }
 }

@@ -7,6 +7,7 @@ import com.greggvandycke.Apollo.models.User;
 import com.greggvandycke.Apollo.repositories.MovieRepository;
 import com.greggvandycke.Apollo.repositories.UserRepository;
 import com.greggvandycke.Apollo.security.jwt.JwtTokenUtil;
+import com.greggvandycke.Apollo.security.jwt.JwtUserDetailsService;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -14,6 +15,7 @@ import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,9 +32,14 @@ import java.util.Optional;
 @CrossOrigin(origins="http://localhost:3000")
 public class UserService {
 
+	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
 
+	@Autowired
 	private final UserRepository userRepository;
+	@Autowired
 	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
@@ -123,9 +130,9 @@ public class UserService {
 	}
 
 	@GraphQLMutation
-	public User register(String firstname, String lastname, String email, String username, String password, String confirmPassword) throws RegistrationException {
+	public User register(String firstName, String lastName, String email, String username, String password, String confirmPassword) throws RegistrationException {
 
-		if(firstname== null || lastname == null || username == null || email == null || password == null || confirmPassword == null) {
+		if(firstName== null || lastName == null || username == null || email == null || password == null || confirmPassword == null) {
 			throw new RegistrationException("User field is null");
 		}
 
@@ -135,7 +142,7 @@ public class UserService {
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
-		User user = new User(firstname, lastname, username, encodedPassword, email);
+		User user = new User(firstName, lastName, username, encodedPassword, email, true);
 		userRepository.save(user);
 		return user;
 	}
@@ -166,9 +173,12 @@ public class UserService {
 
 	@GraphQLQuery
 	public User verifyToken(String token) {
-		User user =  userRepository.findByToken(token);
-		if(jwtTokenUtil.isTokenValid(token, (UserDetails) user)) {
-			return user;
+		Optional<User> optionalUser = userRepository.findByToken(token);
+		if(optionalUser.isPresent()) {
+			UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(optionalUser.get().getUsername());
+			if(jwtTokenUtil.isTokenValid(token, userDetails)) {
+				return optionalUser.get();
+			}
 		}
 		return null;
 	}
