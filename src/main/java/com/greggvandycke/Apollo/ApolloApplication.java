@@ -39,8 +39,8 @@ public class ApolloApplication {
 
 			roleRepository.saveAll(Arrays.asList(role1, role2));
 
-			User user1 = new User("max", "jones", "max123", pass, "max@gmail.com");
-			User user2 = new User("jim", "john", "jimmy12", pass, "jim@yahoo.com");
+			User user1 = new User("max", "jones", "max123", pass, "max@gmail.com", true);
+			User user2 = new User("jim", "john", "jimmy12", pass, "jim@yahoo.com", true);
 
 			user1.setRole(role1);
 			user2.setRole(role2);

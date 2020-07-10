@@ -28,6 +28,7 @@ public class User extends Auditable<String> implements Serializable {
 	private String email;
 	private String token;
 
+	// Indicates whether the user is enabled or disabled. A disabled user cannot be authenticated.
 	@NotNull
 	private Boolean enabled;
 
@@ -60,12 +61,14 @@ public class User extends Auditable<String> implements Serializable {
 	@Transient
 	private String userPassword;
 
-	public User(String firstName, String lastName, String username, String password, String email) {
+	public User(String firstName, String lastName, String username, String password, String email, Boolean enabled) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.enabled = enabled;
+
 	}
 
 	public Long getId() {
@@ -174,4 +177,17 @@ public class User extends Auditable<String> implements Serializable {
 		this.token = token;
 	}
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", username='" + username + '\'' +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", password='" + password + '\'' +
+				", email='" + email + '\'' +
+				", token='" + token + '\'' +
+				", enabled=" + enabled +
+				'}';
+	}
 }
