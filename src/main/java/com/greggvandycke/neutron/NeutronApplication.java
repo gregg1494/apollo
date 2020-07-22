@@ -27,7 +27,7 @@ public class NeutronApplication {
 	}
 
 	@Bean
-	public CommandLineRunner mappingDemo(MovieRepository movieRepository, UserRepository userRepository, RoleRepository roleRepository, TheaterRepository theaterRepository, LocationRepository locationRepository) {
+	public CommandLineRunner mapping(MovieRepository movieRepository, UserRepository userRepository, RoleRepository roleRepository, TheaterRepository theaterRepository, LocationRepository locationRepository) {
 
 		return args -> {
 
@@ -47,11 +47,19 @@ public class NeutronApplication {
 
 			userRepository.saveAll(Arrays.asList(user1, user2));
 
-			Movie movie1 = new Movie("Coco", 123, "https://raw.githubusercontent.com/gregg1494/video-library/master/Coco.mp4");
-			Movie movie2 = new Movie("1917", 135, "https://raw.githubusercontent.com/gregg1494/video-library/master/1917.mp4");
-			Movie movie3 = new Movie("The Lion King", 144, "https://raw.githubusercontent.com/gregg1494/video-library/master/TheLionKing.mp4");
+			Movie movie1 = new Movie("Coco", "1h 45min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/Coco.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/Coco.jpg");
+			Movie movie2 = new Movie("1917", "1h 59min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/1917.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/1917.jpg");
+			Movie movie3 = new Movie("The Lord of the Rings: The Return of the King", "2h 58min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/TheLordoftheRingsTheReturnoftheKing.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/TheLordoftheRingsTheReturnoftheKing.jpg");
+			Movie movie4 = new Movie("The Matrix", "2h 16min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/TheMatrix.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/TheMatrix.jpg");
+			Movie movie5 = new Movie("The Dark Knight", "2h 32min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/TheDarkKnight.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/TheDarkKnight.jpg");
+			Movie movie6 = new Movie("Interstellar", "2h 49min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/Interstellar.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/Interstellar.jpg");
+			Movie movie7 = new Movie("Saving Private Ryan", "2h 49min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/SavingPrivateRyan.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/SavingPrivateRyan.jpg");
+			Movie movie8 = new Movie("Moana", "1h 47min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/Moana.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/Moana.jpg");
+			Movie movie9 = new Movie("WALL·E", "1h 38min ", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/WallE.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/WallE.jpg");
+			Movie movie10 = new Movie("Frozen II", "1h 43min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/FrozenII.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/FrozenII.jpg");
+			Movie movie11 = new Movie("The Lion King", "1h 58min", "https://raw.githubusercontent.com/gvandycke/video-library/master/trailers/TheLionKing.mp4", "https://raw.githubusercontent.com/gvandycke/video-library/master/pictures/TheLionKing.jpg");
 
-			movieRepository.saveAll(Arrays.asList(movie1, movie2, movie3));
+			movieRepository.saveAll(Arrays.asList(movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10, movie11));
 
 			user1.getFavorites().addAll(Arrays.asList(movie1, movie2, movie3));
 			user2.getFavorites().addAll(Arrays.asList(movie1, movie3));

@@ -48,9 +48,9 @@ public class User extends Auditable<String> implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role",
 			joinColumns = {
-				@JoinColumn(name = "user_id",referencedColumnName = "id")},
+					@JoinColumn(name = "user_id",referencedColumnName = "id")},
 			inverseJoinColumns = {
-				@JoinColumn(name = "role_id", referencedColumnName = "id")})
+					@JoinColumn(name = "role_id", referencedColumnName = "id")})
 	@Transient
 	private List<Role> roles = new ArrayList();
 

@@ -2,9 +2,9 @@ package com.greggvandycke.neutron.service;
 
 import com.greggvandycke.neutron.exception.InvalidCredentialsException;
 import com.greggvandycke.neutron.exception.RegistrationException;
-import com.greggvandycke.neutron.models.Movie;
-import com.greggvandycke.neutron.models.User;
+import com.greggvandycke.neutron.models.*;
 import com.greggvandycke.neutron.repositories.MovieRepository;
+import com.greggvandycke.neutron.repositories.RoleRepository;
 import com.greggvandycke.neutron.repositories.UserRepository;
 import com.greggvandycke.neutron.security.jwt.JwtTokenUtil;
 import com.greggvandycke.neutron.security.jwt.JwtUserDetailsService;
@@ -40,6 +40,8 @@ public class UserService {
 	private final UserRepository userRepository;
 	@Autowired
 	private final MovieRepository movieRepository;
+	@Autowired
+	private final RoleRepository roleRepository;
 
 	@GraphQLMutation
 	public User createUser(String name, String username, String password) {
@@ -138,7 +140,11 @@ public class UserService {
 		if(!password.equals(confirmPassword)) {
 			throw new RegistrationException("Passwords do not match");
 		}
-		
+
+		Role role = new Role();
+		role.setRoleName(RoleName.ROLE_USER);
+		roleRepository.save(role);
+
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(password);
 		User user = new User(firstName, lastName, username, encodedPassword, email, true);
@@ -147,13 +153,15 @@ public class UserService {
 	}
 
 	@GraphQLMutation
-	public String login(String username, String password) throws InvalidCredentialsException {
+	public User login(String username, String password) throws InvalidCredentialsException {
+		log.info("username {}", username);
 		Optional<User> user = userRepository.findByUsername(username);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		if(user.isPresent()) {
 			if(encoder.matches(password, user.get().getPassword())) {
-				log.info("success...");
-				return jwtTokenUtil.generateToken(user.get().getUsername());
+				log.info("login success...");
+				jwtTokenUtil.generateToken(user.get().getUsername());
+				return user.get();
 			} else {
 				log.info("Invalid Credentials");
 				throw new InvalidCredentialsException("Invalid Credentials");
@@ -166,6 +174,7 @@ public class UserService {
 
 	@GraphQLMutation
 	public boolean logout(String username) {
+		log.info("user is logging out");
 		jwtTokenUtil.invalidateToken(username);
 		return true;
 	}

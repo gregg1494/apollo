@@ -21,15 +21,27 @@ public class Movie extends Auditable<String> implements Serializable {
 	private long id;
 
 	private String title;
-	private int length;
-	private String url;
+	private String length;
+	private String trailerUrl;
+	private String coverPhotoUrl;
+
+
+	@ManyToMany
+	@JoinTable(name = "movie_genre",
+			joinColumns = {
+					@JoinColumn(name = "movie_id",referencedColumnName = "id")},
+			inverseJoinColumns = {
+					@JoinColumn(name = "genre_id", referencedColumnName = "id")})
+	private List<Genre> genres = new ArrayList();
+
 
 	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> users = new ArrayList<>();
 
-	public Movie(String title, int length, String url) {
+	public Movie(String title, String length, String trailerUrl, String coverPhotoUrl) {
 		this.title = title;
 		this.length = length;
-		this.url = url;
+		this.trailerUrl = trailerUrl;
+		this.coverPhotoUrl = coverPhotoUrl;
 	}
 }
