@@ -39,7 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 user.getLastName(),
                 user.getEmail(),
                 user.getPassword(),
-                List.of(new SimpleGrantedAuthority(user.getGenre().getRoleName().name())),
+                List.of(new SimpleGrantedAuthority(user.getRole().getRoleName().name())),
                 user.getEnabled()
         );
     }

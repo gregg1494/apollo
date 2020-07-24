@@ -24,7 +24,7 @@ public class MovieService {
 	private final MovieRepository movieRepository;
 
 	@GraphQLMutation
-	public Movie createMovie(String title, int length) {
+	public Movie createMovie(String title, String length) {
 		Movie movie = new Movie();
 		movie.setTitle(title);
 		movie.setLength(length);
@@ -44,7 +44,7 @@ public class MovieService {
 	}
 
 	@GraphQLMutation
-	public Movie updateMovie(long id, String title, int length) throws NotFoundException {
+	public Movie updateMovie(long id, String title, String length) throws NotFoundException {
 		Optional<Movie> optionalMovie = movieRepository.findById(id);
 
 		if (optionalMovie.isPresent()) {
@@ -53,7 +53,7 @@ public class MovieService {
 			if (title != null) {
 				movie.setTitle(title);
 			}
-			if(length > 0) {
+			if(length != null) {
 				movie.setLength(length);
 			}
 
